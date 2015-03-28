@@ -1,4 +1,4 @@
-"""This module provides access to various encyption methods.
+"""This module provides access to various encoding methods.
 
 This is used as a proxy around the hashlib and base64 modules,
 for more advanced use, refer to these modules. Each function and
