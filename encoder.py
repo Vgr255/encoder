@@ -5,6 +5,9 @@ for more advanced use, refer to these modules. Each function and
 method returns a string, uppercase for hashes.
 """
 
+import hashlib as _hashlib
+import base64 as _base64
+
 __all__ = ["base64", "morse", "rot13"]
 
 _rot13 = {}
@@ -28,9 +31,8 @@ W =  ".--",    X = "-..-",   Y = "-.--",   Z = "--..")
 
 _morse_dec = {v:k for k,v in _morse_enc.items()}
 
-import hashlib
-for name in hashlib.algorithms_guaranteed:
-    def hasher(line, *, func=getattr(hashlib, name)):
+for name in _hashlib.algorithms_guaranteed:
+    def hasher(line, *, func=getattr(_hashlib, name)):
         try:
             return func(line).hexdigest().upper()
         except TypeError:
@@ -41,8 +43,8 @@ for name in hashlib.algorithms_guaranteed:
 
 del hasher, name
 
-if hasattr(hashlib, "pbkdf2_hmac"):
-    _pbk = hashlib.pbkdf2_hmac
+if hasattr(_hashlib, "pbkdf2_hmac"):
+    _pbk = _hashlib.pbkdf2_hmac
     import binascii as _binascii
 
     def pbkdf2_hmac(*args, **kwargs):
@@ -50,26 +52,20 @@ if hasattr(hashlib, "pbkdf2_hmac"):
 
     __all__.append("pbkdf2_hmac")
 
-del hashlib
-
 class base64:
-    import base64
-
     @staticmethod
-    def encode(line, *, func=base64.b64encode):
+    def encode(line, *, func=_base64.b64encode):
         try:
             return func(line).decode("utf-8")
         except TypeError:
             return func(bytes(line, "utf-8")).decode("utf-8")
 
     @staticmethod
-    def decode(line, *, func=base64.b64decode):
+    def decode(line, *, func=_base64.b64decode):
         try:
             return func(line).decode("utf-8")
         except TypeError:
             return func(bytes(line, "utf-8")).decode("utf-8")
-
-    del base64
 
 class morse:
     @staticmethod
