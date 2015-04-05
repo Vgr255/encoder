@@ -121,8 +121,6 @@ class BFHandler:
 
 class brainfuck:
 
-    _allowed = "+-.,[]<>"
-
     @staticmethod
     def offset(run, items):
         off = 0
@@ -135,11 +133,11 @@ class brainfuck:
             runner += 1
         return off
 
-    @classmethod
-    def decode(cls, line):
+    @staticmethod
+    def decode(line):
         new = ""
         for char in line:
-            if char in cls._allowed:
+            if char in "+-.,[]<>":
                 new += char
         if not new:
             return ""
@@ -190,7 +188,6 @@ class brainfuck:
             maxlen = 1
         maxlen = maxlen // 1
         runner = 0
-        #items = [0, (256 // maxlen), False]
         items = {}
         ords = []
         new = ""
