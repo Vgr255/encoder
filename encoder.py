@@ -107,16 +107,19 @@ class BFHandler:
         if self.handler[self.pointer] == -1:
             self.handler[self.pointer] = 255
 
-    def get_value(self):
+    @property
+    def current_value(self):
         return chr(self.handler[self.pointer])
 
     def set_value(self, inp):
         self.handler[self.pointer] = ord(inp)
 
-    def get_current(self):
+    @property
+    def current(self):
         return self.handler[self.pointer]
 
-    def reverse_brackets(self):
+    @property
+    def reversed(self):
         return {v:k for k,v in self.brackets.items()}
 
 class brainfuck:
@@ -158,17 +161,17 @@ class brainfuck:
             elif char == "-":
                 cells.dec()
             elif char == "[":
-                if not cells.get_current():
+                if not cells.current:
                     pointer = cells.brackets[pointer]
             elif char == "]":
-                if cells.get_current():
-                    pointer = cells.reverse_brackets()[pointer]
+                if cells.current:
+                    pointer = cells.reversed[pointer]
             elif char == "<":
                 cells.move_left()
             elif char == ">":
                 cells.move_right()
             elif char == ".":
-                chars += cells.get_value()
+                chars += cells.current_value
             elif char == ",":
                 print("Comma found.")
                 while True:
