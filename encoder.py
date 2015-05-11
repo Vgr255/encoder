@@ -74,7 +74,7 @@ class morse:
 
     @staticmethod
     def decode(line):
-        return "".join((_morse_dec[c].lower() for c in line.split(" ")))
+        return "".join((_morse_dec[c.replace("1", "-").replace("0", ".")].lower() for c in line.split(" ")))
 
 class BFHandler:
     def __init__(self):
